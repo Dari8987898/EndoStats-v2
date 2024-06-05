@@ -1,27 +1,49 @@
-# EndostatsV2
+![Image](./src/assets/images/MarchioCompleto.png)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+# EndoStats
+App created to support and help the work of [Endocare Onlus](https://www.endo-care.it/).
+</br></br>
 
-## Development server
+## Description
+This app is meant to read data from a specific excell file and separate/organize them in different and specific tables.</br>
+This app is not meant to alter the data inside the excell but only to visualize it in an easier way.</br>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+There are 3 different tables:
+- #### Gruppo multidisciplinare (G)
+|Riga|Nome|Cognome|Data ins.|Diagnosi|
+|:------:|:------:|:------:|:------:|:------:|
+|`number`|`string`|`string`|`string`|`string`|
 
-## Code scaffolding
+- #### Ambulatorio (A)
+|Riga|Nome|Cognome|Data ins.|Diagnosi|N° tel.|
+|:------:|:------:|:------:|:------:|:------:|:------:|
+|`number`|`string`|`string`|`string`|`string`|`string`|
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- #### Da valutare (?)
+|Riga|Nome|Cognome|Data ins.|Diagnosi|
+|:------:|:------:|:------:|:------:|:------:|
+|`number`|`string`|`string`|`string`|`string`|
 
-## Build
+</br>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+>**NOTE:** Every table has the possibility to open each row's details and show more data.
 
-## Running unit tests
+</br>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Building
+If it's the first time you are cloning this repository run `npm install`.</br>
+To start the app for development use the command `npm run start`. The app should start without problems.
 
-## Running end-to-end tests
+To build the app for production use the command `npm run build`, a dist/ folder will be created in the root folder.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+>**NOTE:** Every configuration about these commands can be changed in the _package.json_ file.
 
-## Further help
+</br>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Contributing
+Any help is well accepted, make a pull request and you are on track!
+</br></br>
+
+## Forking
+If you find this repo of some use feel free to fork!
+</br></br>
