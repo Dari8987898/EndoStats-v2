@@ -1,0 +1,52 @@
+@import '../material-colors.scss';
+
+:host {
+  --content-padding: 10px;
+}
+
+.button {
+  background-color: $primary-color;
+  color: $accent-color;
+}
+
+.button:hover,
+.button.active {
+  background-color: $accent-color;
+  color: $primary-color;
+}
+
+.data-caricamento {
+  color: $accent-color;
+}
+
+.title {
+  color: $accent-color;
+  font-size: 20px;
+  margin: auto;
+  margin-left: 0%;
+  margin-right: 0%;
+  text-decoration: none;
+}
+
+.toolbar {
+  margin: auto;
+  background-color: $primary-color;
+}
+
+.toolbar-file-input {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-right: 0%;
+  margin-left: 0%;
+}
+
+.toolbar-menu-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  padding-left: 20%;
+  padding-right: 20%;
+  width: 100%;
+}
