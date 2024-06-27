@@ -7,7 +7,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { AmbulatorioTableColumns, IAmbulatorioTable } from '../../interfaces/ambulatorio-table.interface';
+import { AmbulatorioTableColumns, IAmbulatorioTableRow } from '../../interfaces/ambulatorio-table-row.interface';
 import { ExcellService } from '../../excell.service';
 import { ToolbarComponent } from '../../toolbar/toolbar.component';
 
@@ -27,11 +27,9 @@ import { ToolbarComponent } from '../../toolbar/toolbar.component';
   styleUrl: './ambulatorio-table.component.scss'
 })
 export class AmbulatorioTableComponent implements OnInit {
-  readonly idTabella: number = 3;
-
   route: ActivatedRoute = inject(ActivatedRoute);
   displayedColumns: string[] = AmbulatorioTableColumns.concat(['openDettaglio']);
-  dataSource!: MatTableDataSource<IAmbulatorioTable>;
+  dataSource!: MatTableDataSource<IAmbulatorioTableRow>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -44,7 +42,7 @@ export class AmbulatorioTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<IAmbulatorioTable>(this.excellService.getTable(this.idTabella));
+    this.dataSource = new MatTableDataSource<IAmbulatorioTableRow>(this.excellService.getTable(ExcellService.DISC_AMBULATORIO));
   }
 
   ngAfterViewInit() {

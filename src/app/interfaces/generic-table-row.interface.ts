@@ -1,4 +1,4 @@
-export interface IGenericTable {
+export interface IGenericTableRow {
     row_number: number;
     nome: string;
     cognome: string;

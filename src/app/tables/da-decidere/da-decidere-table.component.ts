@@ -7,7 +7,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { DaDecidereTableColumns, IDaDecidereTable } from '../../interfaces/da-decidere-table.interface';
+import { DaDecidereTableColumns, IDaDecidereTableRow } from '../../interfaces/da-decidere-table-row.interface';
 import { ExcellService } from '../../excell.service';
 import { ToolbarComponent } from '../../toolbar/toolbar.component';
 
@@ -27,11 +27,9 @@ import { ToolbarComponent } from '../../toolbar/toolbar.component';
   styleUrl: './da-decidere-table.component.scss'
 })
 export class DaDecidereTableComponent implements OnInit {
-  readonly idTabella: number = 2;
-
   route: ActivatedRoute = inject(ActivatedRoute);
   displayedColumns: string[] = DaDecidereTableColumns.concat(['openDettaglio']);
-  dataSource!: MatTableDataSource<IDaDecidereTable>;
+  dataSource!: MatTableDataSource<IDaDecidereTableRow>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -44,7 +42,7 @@ export class DaDecidereTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<IDaDecidereTable>(this.excellService.getTable(this.idTabella));
+    this.dataSource = new MatTableDataSource<IDaDecidereTableRow>(this.excellService.getTable(ExcellService.DISC_DADECIDERE));
   }
 
   ngAfterViewInit() {

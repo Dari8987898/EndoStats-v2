@@ -7,7 +7,7 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { GmTableColumns, IGmTable } from '../../interfaces/gm-table.interface';
+import { GmTableColumns, IGmTableRow } from '../../interfaces/gm-table-row.interface';
 import { ExcellService } from '../../excell.service';
 import { ToolbarComponent } from '../../toolbar/toolbar.component';
 
@@ -27,11 +27,9 @@ import { ToolbarComponent } from '../../toolbar/toolbar.component';
   styleUrl: './gm-table.component.scss'
 })
 export class GmTableComponent implements OnInit {
-  readonly idTabella: number = 1;
-  
   route: ActivatedRoute = inject(ActivatedRoute);
   displayedColumns: string[] = GmTableColumns.concat(['openDettaglio']);
-  dataSource!: MatTableDataSource<IGmTable>;
+  dataSource!: MatTableDataSource<IGmTableRow>;
 
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
@@ -44,7 +42,7 @@ export class GmTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<IGmTable>(this.excellService.getTable(this.idTabella));
+    this.dataSource = new MatTableDataSource<IGmTableRow>(this.excellService.getTable(ExcellService.DISC_GMTABLE));
   }
 
   ngAfterViewInit() {
