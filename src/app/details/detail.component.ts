@@ -37,10 +37,11 @@ export class DetailComponent implements OnInit {
         
         this.id = Number(this.route.snapshot.params['id']);
 
-        if(this.id < 0)  console.log("Detail contsructor - Detail ID: " + this.id);
-
         this.iconaTabella = "error";
         this.tooltipDex = "Errore";
+
+        if (this.id < 0)
+            console.log("[Detail constructor] Detail ID: " + this.id);
     }
 
     ngOnInit(): void {

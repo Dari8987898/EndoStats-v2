@@ -1,4 +1,4 @@
-![Image](./src/assets/images/MarchioCompleto.png)
+![Image](./public/assets/images/MarchioCompleto.png)
 
 # EndoStats
 App created to support and help the work of [Endocare Onlus](https://www.endo-care.it/).
@@ -12,16 +12,19 @@ There are 3 different tables:
 - #### Gruppo multidisciplinare (G)
 |Riga|Nome|Cognome|Data ins.|Diagnosi|
 |:------:|:------:|:------:|:------:|:------:|
+|Row number|Name|Surname|Insertion date|Diagnosis|
 |`number`|`string`|`string`|`string`|`string`|
 
 - #### Ambulatorio (A)
 |Riga|Nome|Cognome|Data ins.|Diagnosi|N° tel.|
 |:------:|:------:|:------:|:------:|:------:|:------:|
+|Row number|Name|Surname|Insertion date|Diagnosis|Cell number|
 |`number`|`string`|`string`|`string`|`string`|`string`|
 
 - #### Da valutare (?)
 |Riga|Nome|Cognome|Data ins.|Diagnosi|
 |:------:|:------:|:------:|:------:|:------:|
+|Row number|Name|Surname|Insertion date|Diagnosis|
 |`number`|`string`|`string`|`string`|`string`|
 
 </br>

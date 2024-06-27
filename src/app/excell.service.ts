@@ -26,7 +26,7 @@ export class ExcellService {
 
   public getDetail(id: number): any {
     if(id < 0) 
-      console.log("Detail service - Detail ID: " + id);
+      console.log("[Excell service] Detail ID: " + id);
     else if(localStorage.getItem(this.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA) != null) {
       let allRowsData: IRiga[] = JSON.parse(localStorage.getItem(this.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA)!);
 
@@ -82,7 +82,7 @@ export class ExcellService {
             break;
 
           default:
-            console.log("Discriminante non riconosciuto: " + row[0]);
+            console.log("[Excell service] Discriminante non riconosciuto: " + row[0]);
             break;
         }
       }
@@ -95,7 +95,7 @@ export class ExcellService {
       
       localStorage.setItem("DataUltimoCaricamento", new Date().toLocaleString());
     } else {
-      console.log("File vuoto");
+      console.log("[Excell service] File vuoto");
     }
   }
 
