@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 
-//import { MainService } from '../main.service';
+import { ExcellService } from '../excell.service';
 
 @Component({
   selector: 'toolbar',
@@ -27,13 +27,12 @@ export class ToolbarComponent {
   public static staticTabIndex: number = 0;
   
   route: ActivatedRoute = inject(ActivatedRoute);
-  //mainService: MainService = inject(MainService);
 
   file: Blob = new Blob();
   dataUltimoCaricamento: string | null;
   sidenavOpened!: boolean;
 
-constructor() {
+constructor(private excellService: ExcellService) {
     if(localStorage.getItem("DataUltimoCaricamento") != null) 
       this.dataUltimoCaricamento = localStorage.getItem("DataUltimoCaricamento");
     else
@@ -53,7 +52,7 @@ constructor() {
     let fileReader = new FileReader();
 
     fileReader.onload = () => {
-      //this.mainService.uploadData(fileReader.result);
+      this.excellService.uploadData(fileReader.result);
     }
     
     fileReader.readAsArrayBuffer(this.file)
