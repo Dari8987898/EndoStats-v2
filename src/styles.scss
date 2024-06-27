@@ -1,8 +1,30 @@
-html, body {
-    height: 100%;
-}
+@import './app/material-colors.scss';
 
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+
+.content {
+    flex: 1;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    padding: 6px 0;
+    padding: auto;
+    width: 100%;
+    background-color: $primary-color;
+}
+
+.footer-text {
+    text-align: center;
+    color: $accent-color;
+    width: 100%;
 }

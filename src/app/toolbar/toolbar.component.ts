@@ -1,3 +1,5 @@
+import packageJson from '../../../package.json';
+
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +28,8 @@ import { ExcellService } from '../excell.service';
 export class ToolbarComponent {
   public static staticTabIndex: number = 0;
   
+  public appVersion: string = packageJson.version;
+
   route: ActivatedRoute = inject(ActivatedRoute);
 
   file: Blob = new Blob();

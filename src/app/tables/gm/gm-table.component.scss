@@ -1,12 +1,5 @@
 @import "../../material-colors.scss";
 
-div {
-    padding: auto;
-    margin: auto;
-    margin-top: 2%;
-    width: 90%;
-}
-
 .button {
     color: $primary-color;
 }
@@ -30,4 +23,12 @@ div {
 .mat-column-diagnosi,
 .mat-column-data_inserimento {
     justify-content: center;
+}
+
+.tabella {
+    padding: auto;
+    margin: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 90%;
 }

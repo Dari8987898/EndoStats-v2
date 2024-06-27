@@ -93,7 +93,7 @@ export class ExcellService {
       localStorage.setItem(this.LOCALSTORAGE_ITEM_NAME_AMBULATORIO_TABLE_DATA, JSON.stringify(ambulatorioTableData));
       localStorage.setItem(this.LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA, JSON.stringify(daDecidereTableData));
       
-      localStorage.setItem("DataUltimoCaricamento", new Date().toLocaleString());
+      localStorage.setItem("DataUltimoCaricamento", new Date().toLocaleDateString());
     } else {
       console.log("[Excell service] File vuoto");
     }
