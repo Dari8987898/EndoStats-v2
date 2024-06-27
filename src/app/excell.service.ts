@@ -47,10 +47,10 @@ export class ExcellService {
       // get the first worksheet
       const workSheet = workBook.Sheets[workBook.SheetNames[0]];
       
-      //generate objects
-      const data = utils.sheet_to_json<any>(workSheet, {header: 1, raw: false});
+      // generate objects
+      const data = utils.sheet_to_json<string[]>(workSheet, {header: 1, raw: false});
       
-      //the first row is jumped because it's the headers' row
+      // the first row is jumped because it's the headers' row
       data.shift();
 
       let rowNumber: number = 1;
@@ -62,7 +62,7 @@ export class ExcellService {
 
       let currentRiga: IRiga;
 
-      for (const row of data) {
+      for (let row of data) {
         if(row[0] == undefined) break;
 
         currentRiga = this.toRigaInterface(row, rowNumber++);
@@ -166,7 +166,7 @@ export class ExcellService {
     return model;
   }
 
-  private toRigaInterface(row: any[], rowNumber: number): IRiga {
+  private toRigaInterface(row: string[], rowNumber: number): IRiga {
     let riga: IRiga = {
       row_number: rowNumber,
       discriminante: row[0],
