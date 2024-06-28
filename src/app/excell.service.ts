@@ -23,8 +23,8 @@ export class ExcellService {
   constructor() { }
 
   // PUBLIC METHODS
-  public getTable(id: number): any {
-    switch (id) {
+  public getTable(disc: number): any[] {
+    switch (disc) {
       case ExcellService.DISC_GMTABLE:
         return this.getGmTableDataFromLocalStorage();
 

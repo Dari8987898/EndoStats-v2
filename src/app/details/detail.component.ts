@@ -9,13 +9,11 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { IRiga } from "../interfaces/riga.interface";
 import { ExcellService } from "../excell.service";
 import { ToolbarComponent } from "../toolbar/toolbar.component";
-import { CommonModule } from "@angular/common";
 
 @Component({
     selector: 'detail',
     standalone: true,
     imports: [
-        CommonModule,
         MatButtonModule,
         MatCardModule,
         MatDividerModule,

@@ -6,21 +6,21 @@
 
 .button {
   background-color: $primary-color;
-  color: $accent-color;
+  color: white;
 }
 
 .button:hover,
 .button.active {
-  background-color: $accent-color;
+  background-color: white;
   color: $primary-color;
 }
 
 .data-caricamento {
-  color: $accent-color;
+  color: white;
 }
 
 .title {
-  color: $accent-color;
+  color: white;
   font-size: 20px;
   margin: auto;
   margin-left: 0%;

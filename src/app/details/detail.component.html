@@ -1,35 +1,37 @@
-<div class="div-navigation-buttons">
-    <button mat-icon-button matTooltip="Primo dettaglio" (click)="navigateFirstDetail()" disabled="{{this.disableFirst}}"
-        class="navigation-button" type="button">
-        <mat-icon mat-icon>first_page</mat-icon>
-    </button>
-
-    <button mat-icon-button matTooltip="Dettaglio precedente" (click)="navigatePreviousDetail()" disabled="{{this.disablePrevious}}"
-        class="navigation-button" type="button">
-        <mat-icon mat-icon>chevron_left</mat-icon>
-    </button>
-
-    <button mat-icon-button matTooltip="Dettaglio successivo" (click)="navigateNextDetail()" disabled="{{this.disableNext}}"
-        class="navigation-button" type="button">
-        <mat-icon mat-icon>chevron_right</mat-icon>
-    </button>
-
-    <button mat-icon-button matTooltip="Ultimo dettaglio" (click)="navigateLastDetail()" disabled="{{this.disableLast}}"
-        class="navigation-button" type="button">
-        <mat-icon mat-icon>last_page</mat-icon>
-    </button>
-</div>
-
-<div class="mat-elevation-z8 div-content">
+<div class="div-content">
     <mat-card>
         <mat-card-content>
-            <mat-icon mat-icon class="icon" aria-hidden="true" matTooltip="{{this.tooltipDex}}">
-                {{this.iconaTabella}}
-            </mat-icon>
+            <div class="top-div">
+                <button mat-icon-button class="table-icon" aria-hidden="true" matTooltip="{{this.tooltipDex}}">
+                    <mat-icon mat-icon>{{this.iconaTabella}}</mat-icon>
+                </button>
+                
+                <div class="div-navigation-buttons">
+                    <button mat-icon-button matTooltip="Primo dettaglio" (click)="navigateFirstDetail()" disabled="{{this.disableFirst}}"
+                        class="navigation-button" type="button">
+                        <mat-icon mat-icon>first_page</mat-icon>
+                    </button>
+                
+                    <button mat-icon-button matTooltip="Dettaglio precedente" (click)="navigatePreviousDetail()" disabled="{{this.disablePrevious}}"
+                        class="navigation-button" type="button">
+                        <mat-icon mat-icon>chevron_left</mat-icon>
+                    </button>
+                
+                    <button mat-icon-button matTooltip="Dettaglio successivo" (click)="navigateNextDetail()" disabled="{{this.disableNext}}"
+                        class="navigation-button" type="button">
+                        <mat-icon mat-icon>chevron_right</mat-icon>
+                    </button>
+                
+                    <button mat-icon-button matTooltip="Ultimo dettaglio" (click)="navigateLastDetail()" disabled="{{this.disableLast}}"
+                        class="navigation-button" type="button">
+                        <mat-icon mat-icon>last_page</mat-icon>
+                    </button>
+                </div>
+            </div>
 
             <div class="titles">
-                <h3 class="title-row">{{dataSource.row_number}} - {{dataSource.nome}} {{dataSource.cognome}}</h3>
-                <h3 class="title-row">Data inserimento - {{dataSource.informazioni_cronologiche}}</h3>
+                <h3 class="top-row">{{dataSource.row_number}} - {{dataSource.nome}} {{dataSource.cognome}}</h3>
+                <h3 class="top-row">Data inserimento - {{dataSource.informazioni_cronologiche}}</h3>
             </div>
 
             <!-- Informazioni anagrafiche -->
