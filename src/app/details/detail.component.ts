@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -27,7 +27,6 @@ import { CommonModule } from "@angular/common";
 })
 export class DetailComponent implements OnInit {
     private id: number = -1;
-    private detailTypeDisc: number = -1;
 
     protected firstDetailId: number;
     protected previousDetailId: number;
@@ -46,7 +45,6 @@ export class DetailComponent implements OnInit {
     dataSource!: IRiga;
 
     constructor(
-        private cdr: ChangeDetectorRef,
         private excellService: ExcellService,
         private router: Router
     ) {
@@ -58,9 +56,6 @@ export class DetailComponent implements OnInit {
         this.previousDetailId = this.id;
         this.nextDetailId = this.id;
         this.lastDetailId = this.id;
-
-        if (this.id < 0)
-            console.log("[Detail constructor] Detail ID: " + this.id);
     }
 
     ngOnInit(): void {
@@ -104,11 +99,9 @@ export class DetailComponent implements OnInit {
         }
 
         if (disc != -1) {
-            this.detailTypeDisc = disc;
-
             let navigationIds: number[] = [4];
 
-            navigationIds = this.excellService.getNavigationIds(this.id, this.detailTypeDisc);
+            navigationIds = this.excellService.getNavigationIds(this.id, disc);
 
             this.firstDetailId = navigationIds[0];
             this.previousDetailId = navigationIds[1];

@@ -39,19 +39,17 @@ export class ExcellService {
     }
   }
 
-  public getDetail(id: number): any {
-    if (id < 0)
-      console.log("[Excell service] Detail ID: " + id);
-    else if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA) != null) {
+  public getDetail(id: number): IRiga {
+    let detailData: IRiga = {} as IRiga;
+
+    if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA) != null) {
       let allRowsData: IRiga[] = JSON.parse(localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA)!);
 
       //allRowsData[0] contains rowNumber 1, so id==1 is the first row with data (and consequently the first element of the array)
-      let detailData: IRiga = allRowsData[id - 1];
-
-      return detailData;
+      detailData = allRowsData[id - 1];
     }
 
-    return [];
+    return detailData;
   }
 
   public uploadData(inputFile: string | ArrayBuffer | null): void {
@@ -109,8 +107,6 @@ export class ExcellService {
       localStorage.setItem(ExcellService.LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA, JSON.stringify(daDecidereTableData));
 
       localStorage.setItem("DataUltimoCaricamento", new Date().toLocaleDateString());
-    } else {
-      console.log("[Excell service] File vuoto");
     }
   }
 
