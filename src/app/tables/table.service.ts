@@ -9,8 +9,8 @@ import { LocalStorageService } from "../local-storage.service";
 export class TableService {
     constructor(private localStorageService: LocalStorageService) { }
 
-    public getTable(disc: number): any[] {
-        switch (disc) {
+    public getTable(table_disc: ExcellConstants): any[] {
+        switch (table_disc) {
             case ExcellConstants.DISC_GMTABLE:
                 return this.localStorageService.getGmTableDataFromLocalStorage();
 

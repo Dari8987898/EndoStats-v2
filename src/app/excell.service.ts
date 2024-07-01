@@ -39,7 +39,8 @@ export class ExcellService {
       let currentRiga: IGenericRow;
 
       for (let row of data) {
-        if (row[0] == undefined) break;
+        if (row[0] == undefined)
+          break;
 
         currentRiga = this.toGenericRowInterface(row, rowNumber++);
         allRowsData.push(currentRiga);
@@ -58,7 +59,6 @@ export class ExcellService {
             break;
 
           default:
-            console.log("[Excell service] Discriminante non riconosciuto: " + row[0]);
             break;
         }
       }

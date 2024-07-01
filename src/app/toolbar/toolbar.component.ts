@@ -6,9 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { ExcellService } from '../excell.service';
+import { LocalStorageService } from '../local-storage.service';
 
 @Component({
   selector: 'toolbar',
@@ -27,20 +28,19 @@ import { ExcellService } from '../excell.service';
 })
 export class ToolbarComponent {
   public static staticTabIndex: number = 0;
-  
+
   public appVersion: string = packageJson.version;
 
-  route: ActivatedRoute = inject(ActivatedRoute);
-
-  file: Blob = new Blob();
+  file: Blob;
   dataUltimoCaricamento: string | null;
-  sidenavOpened!: boolean;
 
-constructor(private excellService: ExcellService) {
-    if(localStorage.getItem("DataUltimoCaricamento") != null) 
-      this.dataUltimoCaricamento = localStorage.getItem("DataUltimoCaricamento");
-    else
-      this.dataUltimoCaricamento = null;
+  constructor(
+    private excellService: ExcellService,
+    private localStorageService: LocalStorageService
+  ) {
+    this.file = new Blob();
+
+    this.dataUltimoCaricamento = this.localStorageService.getDataUltimoCaricamento();
   }
 
   get staticTabIndex(): number {
@@ -58,13 +58,13 @@ constructor(private excellService: ExcellService) {
     fileReader.onload = () => {
       this.excellService.uploadData(fileReader.result);
     }
-    
+
     fileReader.readAsArrayBuffer(this.file)
-    
+
     window.location.reload();
   }
-  
+
   onTabClick(index: number): void {
-      this.tabIndex = index;
+    this.tabIndex = index;
   }
 }

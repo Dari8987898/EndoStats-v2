@@ -24,7 +24,7 @@ export class DetailService {
           [2] => next
           [3] => last
         */
-        let resIds: number[] = [4];
+        let resIds: number[] = [id, id, id, id];
 
         switch (disc) {
             case ExcellConstants.DISC_AMBULATORIO: // Ambulatorio
@@ -32,10 +32,7 @@ export class DetailService {
                     let ambulatorioTableData: IAmbulatorioTableRow[] = this.localStorageService.getAmbulatorioTableDataFromLocalStorage();
 
                     let currentIndex: number = ambulatorioTableData.findIndex((row: IAmbulatorioTableRow, index: number) => {
-                        if (row.row_number == id)
-                            return true;
-                        else
-                            return false;
+                        return row.row_number == id;
                     });
 
                     if (currentIndex != -1) {
@@ -43,8 +40,7 @@ export class DetailService {
                         resIds[1] = currentIndex == 0 ? id : ambulatorioTableData[currentIndex - 1].row_number;
                         resIds[2] = currentIndex == ambulatorioTableData.length - 1 ? id : ambulatorioTableData[currentIndex + 1].row_number;
                         resIds[3] = ambulatorioTableData[ambulatorioTableData.length - 1].row_number;
-                    } else
-                        resIds = [id, id, id, id];
+                    }
 
                     break;
                 }
@@ -54,10 +50,7 @@ export class DetailService {
                     let daDecidereTableData: IDaDecidereTableRow[] = this.localStorageService.getDaDecidereTableDataFromLocalStorage();
 
                     let currentIndex: number = daDecidereTableData.findIndex((row: IDaDecidereTableRow, index: number) => {
-                        if (row.row_number == id)
-                            return true;
-                        else
-                            return false;
+                        return row.row_number == id;
                     });
 
                     if (currentIndex != -1) {
@@ -65,8 +58,7 @@ export class DetailService {
                         resIds[1] = currentIndex == 0 ? id : daDecidereTableData[currentIndex - 1].row_number;
                         resIds[2] = currentIndex == daDecidereTableData.length - 1 ? id : daDecidereTableData[currentIndex + 1].row_number;
                         resIds[3] = daDecidereTableData[daDecidereTableData.length - 1].row_number;
-                    } else
-                        resIds = [id, id, id, id];
+                    }
 
                     break;
                 }
@@ -76,10 +68,7 @@ export class DetailService {
                     let gmTableData: IGmTableRow[] = this.localStorageService.getGmTableDataFromLocalStorage();
 
                     let currentIndex: number = gmTableData.findIndex((row: IDaDecidereTableRow, index: number) => {
-                        if (row.row_number == id)
-                            return true;
-                        else
-                            return false;
+                        return row.row_number == id;
                     });
 
                     if (currentIndex != -1) {
@@ -87,15 +76,13 @@ export class DetailService {
                         resIds[1] = currentIndex == 0 ? id : gmTableData[currentIndex - 1].row_number;
                         resIds[2] = currentIndex == gmTableData.length - 1 ? id : gmTableData[currentIndex + 1].row_number;
                         resIds[3] = gmTableData[gmTableData.length - 1].row_number;
-                    } else
-                        resIds = [id, id, id, id];
+                    }
 
                     break;
                 }
 
             default:
-                resIds = [id, id, id, id]
-                return resIds;
+                break;
         }
 
         return resIds;
