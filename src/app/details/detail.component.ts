@@ -62,7 +62,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // Subscribe to route parameter changes
         this.routeSub = this.route.params.subscribe(params => {
-            let paramId: number = +params['id'];
+            let paramId: number = Number(params['id']);
 
             if (this.id != paramId) {
                 this.id = paramId;
@@ -84,43 +84,47 @@ export class DetailComponent implements OnInit, OnDestroy {
     private initFunc(): void {
         this.dataSource = this.detailService.getDetail(this.id);
 
-        let disc: number = -1;
+        if (this.dataSource != undefined) {
+            let disc: number = -1;
 
-        switch (this.dataSource.discriminante) {
-            case "G":
-                this.iconaTabella = "groups_3";
-                this.tooltipDex = "Gruppi multidisciplinari";
-                disc = ExcellConstants.DISC_GMTABLE;
-                break;
+            switch (this.dataSource.discriminante) {
+                case "G":
+                    this.iconaTabella = "groups_3";
+                    this.tooltipDex = "Gruppi multidisciplinari";
+                    disc = ExcellConstants.DISC_GMTABLE;
+                    break;
 
-            case "A":
-                this.iconaTabella = "local_hospital";
-                this.tooltipDex = "Ambulatorio";
-                disc = ExcellConstants.DISC_AMBULATORIO;
-                break;
+                case "A":
+                    this.iconaTabella = "local_hospital";
+                    this.tooltipDex = "Ambulatorio";
+                    disc = ExcellConstants.DISC_AMBULATORIO;
+                    break;
 
-            case "?":
-                this.iconaTabella = "live_help";
-                this.tooltipDex = "Da decidere";
-                disc = ExcellConstants.DISC_DADECIDERE;
-                break;
+                case "?":
+                    this.iconaTabella = "live_help";
+                    this.tooltipDex = "Da decidere";
+                    disc = ExcellConstants.DISC_DADECIDERE;
+                    break;
 
-            default:
-                break;
-        }
+                default:
+                    break;
+            }
 
-        if (disc != -1) {
-            let navigationIds: number[] = this.detailService.getNavigationIds(this.id, disc);
+            if (disc != -1) {
+                let navigationIds: number[] = this.detailService.getNavigationIds(this.id, disc);
 
-            this.firstDetailId = navigationIds[0];
-            this.previousDetailId = navigationIds[1];
-            this.nextDetailId = navigationIds[2];
-            this.lastDetailId = navigationIds[3];
+                this.firstDetailId = navigationIds[0];
+                this.previousDetailId = navigationIds[1];
+                this.nextDetailId = navigationIds[2];
+                this.lastDetailId = navigationIds[3];
 
-            this.disableFirst = this.firstDetailId == this.id;
-            this.disablePrevious = this.previousDetailId == this.id;
-            this.disableNext = this.nextDetailId == this.id;
-            this.disableLast = this.lastDetailId == this.id;
+                this.disableFirst = this.firstDetailId == this.id;
+                this.disablePrevious = this.previousDetailId == this.id;
+                this.disableNext = this.nextDetailId == this.id;
+                this.disableLast = this.lastDetailId == this.id;
+            }
+        } else {
+            this.dataSource = {} as IGenericRow;
         }
     }
 }

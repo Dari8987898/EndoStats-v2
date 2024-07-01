@@ -1,6 +1,6 @@
 {
   "name": "endostats-v2",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

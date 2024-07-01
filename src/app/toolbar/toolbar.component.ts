@@ -55,10 +55,6 @@ export class ToolbarComponent {
     return ToolbarComponent.staticTabIndex;
   }
 
-  set tabIndex(tabIndex: number) {
-    ToolbarComponent.staticTabIndex = tabIndex;
-  }
-
   fileChanged(event: any) {
     this.file = event.target.files[0];
     let fileReader = new FileReader();
@@ -73,6 +69,6 @@ export class ToolbarComponent {
   }
 
   onTabClick(index: number): void {
-    this.tabIndex = index;
+    ToolbarComponent.staticTabIndex = index;
   }
 }
