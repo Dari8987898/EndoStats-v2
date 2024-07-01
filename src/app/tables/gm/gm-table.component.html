@@ -22,7 +22,9 @@
 
         <ng-container matColumnDef="diagnosi">
             <mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordina per diagnosi"> Diagnosi </mat-header-cell>
-            <mat-cell *matCellDef="let riga"> {{riga.diagnosi}} </mat-cell>
+            <mat-cell *matCellDef="let riga">
+                <mat-icon class="{{riga.diagnosi == 'Si' ? 'check' : 'close'}}" mat-icon>{{riga.diagnosi == "Si" ? "check" : "close"}}</mat-icon>
+            </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="openDettaglio">
