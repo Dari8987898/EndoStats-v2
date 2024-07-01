@@ -24,7 +24,18 @@ body {
 }
 
 .footer-text {
-    text-align: center;
+    display: flex;justify-content: center;
     color: white;
     width: 100%;
+}
+
+.repo-link {
+    text-decoration: none;
+    color: $accent-color;
+}
+
+// after the link is clicked it should not be underlined
+.repo-link::-webkit-any-link {
+    text-decoration: none;
+    color: $accent-color;
 }
