@@ -1,4 +1,4 @@
-export interface IRiga {
+export interface IGenericRow {
     row_number: number;
     discriminante: string;
     informazioni_cronologiche: string;

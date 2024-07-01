@@ -8,7 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { AmbulatorioTableColumns, IAmbulatorioTableRow } from '../../interfaces/ambulatorio-table-row.interface';
-import { ExcellService } from '../../excell.service';
+import { ExcellConstants } from '../../excell.service';
+import { TableService } from '../table.service';
 import { ToolbarComponent } from '../../toolbar/toolbar.component';
 
 @Component({
@@ -37,12 +38,12 @@ export class AmbulatorioTableComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private excellService: ExcellService) {
+  constructor(private tableService: TableService) {
     ToolbarComponent.staticTabIndex = 2;
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<IAmbulatorioTableRow>(this.excellService.getTable(ExcellService.DISC_AMBULATORIO));
+    this.dataSource = new MatTableDataSource<IAmbulatorioTableRow>(this.tableService.getTable(ExcellConstants.DISC_AMBULATORIO));
   }
 
   ngAfterViewInit() {

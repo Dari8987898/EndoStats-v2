@@ -6,8 +6,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { IRiga } from "../interfaces/riga.interface";
-import { ExcellService } from "../excell.service";
+import { DetailService } from "./detail.service";
+import { ExcellConstants } from "../excell.service";
+import { IGenericRow } from "../interfaces/generic-row.interface";
 import { ToolbarComponent } from "../toolbar/toolbar.component";
 
 @Component({
@@ -40,10 +41,10 @@ export class DetailComponent implements OnInit {
     tooltipDex: string = "Errore";
 
     route: ActivatedRoute = inject(ActivatedRoute);
-    dataSource!: IRiga;
+    dataSource!: IGenericRow;
 
     constructor(
-        private excellService: ExcellService,
+        private detailService: DetailService,
         private router: Router
     ) {
         ToolbarComponent.staticTabIndex = -1;
@@ -69,7 +70,7 @@ export class DetailComponent implements OnInit {
             }
         });
 
-        this.dataSource = this.excellService.getDetail(this.id);
+        this.dataSource = this.detailService.getDetail(this.id);
         
         let disc: number = -1;
 
@@ -77,19 +78,19 @@ export class DetailComponent implements OnInit {
             case "G":
                 this.iconaTabella = "groups_3";
                 this.tooltipDex = "Gruppi multidisciplinari";
-                disc = ExcellService.DISC_GMTABLE;
+                disc = ExcellConstants.DISC_GMTABLE;
                 break;
 
             case "A":
                 this.iconaTabella = "local_hospital";
                 this.tooltipDex = "Ambulatorio";
-                disc = ExcellService.DISC_AMBULATORIO;
+                disc = ExcellConstants.DISC_AMBULATORIO;
                 break;
 
             case "?":
                 this.iconaTabella = "live_help";
                 this.tooltipDex = "Da decidere";
-                disc = ExcellService.DISC_DADECIDERE;
+                disc = ExcellConstants.DISC_DADECIDERE;
                 break;
 
             default:
@@ -99,7 +100,7 @@ export class DetailComponent implements OnInit {
         if (disc != -1) {
             let navigationIds: number[] = [4];
 
-            navigationIds = this.excellService.getNavigationIds(this.id, disc);
+            navigationIds = this.detailService.getNavigationIds(this.id, disc);
 
             this.firstDetailId = navigationIds[0];
             this.previousDetailId = navigationIds[1];
@@ -116,6 +117,7 @@ export class DetailComponent implements OnInit {
     navigateFirstDetail(): void {
         this.router.navigate(['/detail/', this.firstDetailId]);
     }
+    
     navigatePreviousDetail(): void {
         this.router.navigate(['/detail/', this.previousDetailId]);
     }

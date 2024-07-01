@@ -8,7 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { GmTableColumns, IGmTableRow } from '../../interfaces/gm-table-row.interface';
-import { ExcellService } from '../../excell.service';
+import { ExcellConstants } from '../../excell.service';
+import { TableService } from '../table.service';
 import { ToolbarComponent } from '../../toolbar/toolbar.component';
 
 @Component({
@@ -37,12 +38,12 @@ export class GmTableComponent implements OnInit {
   @ViewChild(MatSort)
   sort!: MatSort;
 
-  constructor(private excellService: ExcellService) {
+  constructor(private tableService: TableService) {
     ToolbarComponent.staticTabIndex = 1;
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<IGmTableRow>(this.excellService.getTable(ExcellService.DISC_GMTABLE));
+    this.dataSource = new MatTableDataSource<IGmTableRow>(this.tableService.getTable(ExcellConstants.DISC_GMTABLE));
   }
 
   ngAfterViewInit() {

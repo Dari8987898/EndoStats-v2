@@ -5,53 +5,16 @@ import { IAmbulatorioTableRow } from './interfaces/ambulatorio-table-row.interfa
 import { IDaDecidereTableRow } from './interfaces/da-decidere-table-row.interface';
 import { IGenericTableRow } from './interfaces/generic-table-row.interface';
 import { IGmTableRow } from './interfaces/gm-table-row.interface';
-import { IRiga } from './interfaces/riga.interface';
+import { IGenericRow } from './interfaces/generic-row.interface';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExcellService {
-  public static readonly DISC_GMTABLE: number = 1;
-  public static readonly DISC_DADECIDERE: number = 2;
-  public static readonly DISC_AMBULATORIO: number = 3;
-
-  static readonly LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA: string = "allRowsData";
-  static readonly LOCALSTORAGE_ITEM_NAME_AMBULATORIO_TABLE_DATA: string = "ambulatorioTableData";
-  static readonly LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA: string = "daDecidereTableData";
-  static readonly LOCALSTORAGE_ITEM_NAME_GM_TABLE_DATA: string = "gmTableData";
-
-  constructor() { }
+  constructor(private localStorageService: LocalStorageService) { }
 
   // PUBLIC METHODS
-  public getTable(disc: number): any[] {
-    switch (disc) {
-      case ExcellService.DISC_GMTABLE:
-        return this.getGmTableDataFromLocalStorage();
-
-      case ExcellService.DISC_DADECIDERE:
-        return this.getDaDecidereTableDataFromLocalStorage();
-
-      case ExcellService.DISC_AMBULATORIO:
-        return this.getAmbulatorioTableDataFromLocalStorage();
-
-      default:
-        return [];
-    }
-  }
-
-  public getDetail(id: number): IRiga {
-    let detailData: IRiga = {} as IRiga;
-
-    if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA) != null) {
-      let allRowsData: IRiga[] = JSON.parse(localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA)!);
-
-      //allRowsData[0] contains rowNumber 1, so id==1 is the first row with data (and consequently the first element of the array)
-      detailData = allRowsData[id - 1];
-    }
-
-    return detailData;
-  }
-
   public uploadData(inputFile: string | ArrayBuffer | null): void {
     if (inputFile != null) {
       // parse workbook
@@ -68,17 +31,17 @@ export class ExcellService {
 
       let rowNumber: number = 1;
 
-      let allRowsData: IRiga[] = [];
+      let allRowsData: IGenericRow[] = [];
       let gmTableData: IGenericTableRow[] = [];
       let ambulatorioTableData: IAmbulatorioTableRow[] = [];
       let daDecidereTableData: IDaDecidereTableRow[] = [];
 
-      let currentRiga: IRiga;
+      let currentRiga: IGenericRow;
 
       for (let row of data) {
         if (row[0] == undefined) break;
 
-        currentRiga = this.toRigaInterface(row, rowNumber++);
+        currentRiga = this.toGenericRowInterface(row, rowNumber++);
         allRowsData.push(currentRiga);
 
         switch (currentRiga.discriminante) {
@@ -100,132 +63,12 @@ export class ExcellService {
         }
       }
 
-      localStorage.setItem(ExcellService.LOCALSTORAGE_ITEM_NAME_ALLROWS_TABLE_DATA, JSON.stringify(allRowsData));
-
-      localStorage.setItem(ExcellService.LOCALSTORAGE_ITEM_NAME_GM_TABLE_DATA, JSON.stringify(gmTableData));
-      localStorage.setItem(ExcellService.LOCALSTORAGE_ITEM_NAME_AMBULATORIO_TABLE_DATA, JSON.stringify(ambulatorioTableData));
-      localStorage.setItem(ExcellService.LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA, JSON.stringify(daDecidereTableData));
-
-      localStorage.setItem("DataUltimoCaricamento", new Date().toLocaleDateString());
+      this.localStorageService.setAllData(allRowsData, gmTableData, ambulatorioTableData, daDecidereTableData, new Date().toLocaleDateString());
     }
-  }
-
-  public getNavigationIds(id: number, disc: number): number[] {
-    /*
-      [0] => first
-      [1] => previous
-      [2] => next
-      [3] => last
-    */
-    let resIds: number[] = [4];
-
-    switch (disc) {
-      case ExcellService.DISC_AMBULATORIO: // Ambulatorio
-      {
-        let ambulatorioTableData: IAmbulatorioTableRow[] = this.getAmbulatorioTableDataFromLocalStorage();
-
-        let currentIndex: number = ambulatorioTableData.findIndex((row: IAmbulatorioTableRow, index: number) => {
-          if (row.row_number == id)
-            return true;
-          else
-            return false;
-        });
-        
-        if (currentIndex != -1) {
-          resIds[0] = ambulatorioTableData[0].row_number;
-          resIds[1] = currentIndex == 0 ? id : ambulatorioTableData[currentIndex - 1].row_number;
-          resIds[2] = currentIndex == ambulatorioTableData.length - 1 ? id : ambulatorioTableData[currentIndex + 1].row_number;
-          resIds[3] = ambulatorioTableData[ambulatorioTableData.length - 1].row_number;
-        } else 
-          resIds = [id, id, id, id];
-
-        break;
-      }
-
-      case ExcellService.DISC_DADECIDERE: // Da decidere
-      {
-        let daDecidereTableData: IDaDecidereTableRow[] = this.getDaDecidereTableDataFromLocalStorage();
-
-        let currentIndex: number = daDecidereTableData.findIndex((row: IDaDecidereTableRow, index: number) => {
-          if (row.row_number == id)
-            return true;
-          else
-            return false;
-        });
-        
-        if (currentIndex != -1) {
-          resIds[0] = daDecidereTableData[0].row_number;
-          resIds[1] = currentIndex == 0 ? id : daDecidereTableData[currentIndex - 1].row_number;
-          resIds[2] = currentIndex == daDecidereTableData.length - 1 ? id : daDecidereTableData[currentIndex + 1].row_number;
-          resIds[3] = daDecidereTableData[daDecidereTableData.length - 1].row_number;
-        } else 
-          resIds = [id, id, id, id];
-
-        break;
-      }
-
-      case ExcellService.DISC_GMTABLE: // Gruppi multidisciplinari
-      {
-        let gmTableData: IGmTableRow[] = this.getGmTableDataFromLocalStorage();
-
-        let currentIndex: number = gmTableData.findIndex((row: IDaDecidereTableRow, index: number) => {
-          if (row.row_number == id)
-            return true;
-          else
-            return false;
-        });
-        
-        if (currentIndex != -1) {
-          resIds[0] = gmTableData[0].row_number;
-          resIds[1] = currentIndex == 0 ? id : gmTableData[currentIndex - 1].row_number;
-          resIds[2] = currentIndex == gmTableData.length - 1 ? id : gmTableData[currentIndex + 1].row_number;
-          resIds[3] = gmTableData[gmTableData.length - 1].row_number;
-        } else 
-          resIds = [id, id, id, id];
-
-        break;
-      }
-
-      default:
-        resIds = [id, id, id, id]
-        return resIds;
-    }
-
-    return resIds;
   }
 
   // PRIVATE METHODS
-  private getAmbulatorioTableDataFromLocalStorage(): IAmbulatorioTableRow[] {
-    if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_AMBULATORIO_TABLE_DATA) != null) {
-      let gmTableData: IAmbulatorioTableRow[] = JSON.parse(localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_AMBULATORIO_TABLE_DATA)!);
-
-      return gmTableData;
-    }
-
-    return [];
-  }
-
-  private getDaDecidereTableDataFromLocalStorage(): IDaDecidereTableRow[] {
-    if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA) != null) {
-      let gmTableData: IDaDecidereTableRow[] = JSON.parse(localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_DA_DECIDERE_TABLE_DATA)!);
-
-      return gmTableData;
-    }
-
-    return [];
-  }
-
-  private getGmTableDataFromLocalStorage(): IGmTableRow[] {
-    if (localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_GM_TABLE_DATA) != null) {
-      let gmTableData: IGmTableRow[] = JSON.parse(localStorage.getItem(ExcellService.LOCALSTORAGE_ITEM_NAME_GM_TABLE_DATA)!);
-
-      return gmTableData;
-    }
-
-    return [];
-  }
-
-  private toAmbulatorioTableIterface(riga: IRiga): IAmbulatorioTableRow {
+  private toAmbulatorioTableIterface(riga: IGenericRow): IAmbulatorioTableRow {
     let model: IAmbulatorioTableRow = {
       row_number: riga.row_number,
       nome: riga.nome,
@@ -238,7 +81,7 @@ export class ExcellService {
     return model;
   }
 
-  private toDaDecidereTableInterface(riga: IRiga): IDaDecidereTableRow {
+  private toDaDecidereTableInterface(riga: IGenericRow): IDaDecidereTableRow {
     let model: IDaDecidereTableRow = {
       row_number: riga.row_number,
       nome: riga.nome,
@@ -250,7 +93,7 @@ export class ExcellService {
     return model;
   }
 
-  private toGmTableInterface(riga: IRiga): IGmTableRow {
+  private toGmTableInterface(riga: IGenericRow): IGmTableRow {
     let model: IGmTableRow = {
       row_number: riga.row_number,
       nome: riga.nome,
@@ -262,8 +105,8 @@ export class ExcellService {
     return model;
   }
 
-  private toRigaInterface(row: string[], rowNumber: number): IRiga {
-    let riga: IRiga = {
+  private toGenericRowInterface(row: string[], rowNumber: number): IGenericRow {
+    let genericRow: IGenericRow = {
       row_number: rowNumber,
       discriminante: row[0],
       informazioni_cronologiche: row[1],
@@ -306,6 +149,12 @@ export class ExcellService {
       autorizzazione_trattamento_dati: row[38]
     }
 
-    return riga;
+    return genericRow;
   }
+}
+
+export enum ExcellConstants {
+  DISC_GMTABLE = 1,
+  DISC_DADECIDERE = 2,
+  DISC_AMBULATORIO = 3
 }
