@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { GmTableColumns, IGmTableRow } from '../../interfaces/gm-table-row.interface';
 import { ExcellConstants } from '../../excell.service';
 import { TableService } from '../table.service';
-import { ToolbarComponent } from '../../toolbar/toolbar.component';
+import { ToolbarComponent, ToolbarTabs } from '../../toolbar/toolbar.component';
 
 @Component({
   selector: 'gm-table',
@@ -28,7 +28,6 @@ import { ToolbarComponent } from '../../toolbar/toolbar.component';
   styleUrl: './gm-table.component.scss'
 })
 export class GmTableComponent implements OnInit {
-  route: ActivatedRoute = inject(ActivatedRoute);
   displayedColumns: string[] = GmTableColumns.concat(['openDettaglio']);
   dataSource!: MatTableDataSource<IGmTableRow>;
 
@@ -39,7 +38,7 @@ export class GmTableComponent implements OnInit {
   sort!: MatSort;
 
   constructor(private tableService: TableService) {
-    ToolbarComponent.staticTabIndex = 1;
+    ToolbarComponent.staticTabIndex = ToolbarTabs.GMTABLE;
   }
 
   ngOnInit(): void {

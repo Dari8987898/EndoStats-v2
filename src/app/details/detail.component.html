@@ -7,23 +7,23 @@
                 </button>
                 
                 <div class="div-navigation-buttons">
-                    <button mat-icon-button matTooltip="Primo dettaglio" (click)="navigateFirstDetail()" disabled="{{this.disableFirst}}"
-                        class="navigation-button" type="button">
+                    <button mat-icon-button matTooltip="Primo dettaglio" disabled="{{this.disableFirst}}"
+                        [routerLink]="['/detail', firstDetailId]" class="navigation-button" type="button">
                         <mat-icon mat-icon>first_page</mat-icon>
                     </button>
                 
-                    <button mat-icon-button matTooltip="Dettaglio precedente" (click)="navigatePreviousDetail()" disabled="{{this.disablePrevious}}"
-                        class="navigation-button" type="button">
+                    <button mat-icon-button matTooltip="Dettaglio precedente" disabled="{{this.disablePrevious}}"
+                        [routerLink]="['/detail', previousDetailId]" class="navigation-button" type="button">
                         <mat-icon mat-icon>chevron_left</mat-icon>
                     </button>
                 
-                    <button mat-icon-button matTooltip="Dettaglio successivo" (click)="navigateNextDetail()" disabled="{{this.disableNext}}"
-                        class="navigation-button" type="button">
+                    <button mat-icon-button matTooltip="Dettaglio successivo" disabled="{{this.disableNext}}"
+                        [routerLink]="['/detail', nextDetailId]" class="navigation-button" type="button">
                         <mat-icon mat-icon>chevron_right</mat-icon>
                     </button>
                 
-                    <button mat-icon-button matTooltip="Ultimo dettaglio" (click)="navigateLastDetail()" disabled="{{this.disableLast}}"
-                        class="navigation-button" type="button">
+                    <button mat-icon-button matTooltip="Ultimo dettaglio" disabled="{{this.disableLast}}"
+                        [routerLink]="['/detail', lastDetailId]" class="navigation-button" type="button">
                         <mat-icon mat-icon>last_page</mat-icon>
                     </button>
                 </div>

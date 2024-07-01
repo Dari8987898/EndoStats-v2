@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table'
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { AmbulatorioTableColumns, IAmbulatorioTableRow } from '../../interfaces/ambulatorio-table-row.interface';
 import { ExcellConstants } from '../../excell.service';
 import { TableService } from '../table.service';
-import { ToolbarComponent } from '../../toolbar/toolbar.component';
+import { ToolbarComponent, ToolbarTabs } from '../../toolbar/toolbar.component';
 
 @Component({
   selector: 'ambulatorio-table',
@@ -28,7 +28,6 @@ import { ToolbarComponent } from '../../toolbar/toolbar.component';
   styleUrl: './ambulatorio-table.component.scss'
 })
 export class AmbulatorioTableComponent implements OnInit {
-  route: ActivatedRoute = inject(ActivatedRoute);
   displayedColumns: string[] = AmbulatorioTableColumns.concat(['openDettaglio']);
   dataSource!: MatTableDataSource<IAmbulatorioTableRow>;
 
@@ -39,7 +38,7 @@ export class AmbulatorioTableComponent implements OnInit {
   sort!: MatSort;
 
   constructor(private tableService: TableService) {
-    ToolbarComponent.staticTabIndex = 2;
+    ToolbarComponent.staticTabIndex = ToolbarTabs.AMBULATORIO;
   }
 
   ngOnInit(): void {

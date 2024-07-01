@@ -1,15 +1,16 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 
 import { DetailService } from "./detail.service";
 import { ExcellConstants } from "../excell.service";
 import { IGenericRow } from "../interfaces/generic-row.interface";
-import { ToolbarComponent } from "../toolbar/toolbar.component";
+import { ToolbarComponent, ToolbarTabs } from "../toolbar/toolbar.component";
+import { Subscription } from "rxjs";
 
 @Component({
     selector: 'detail',
@@ -19,12 +20,14 @@ import { ToolbarComponent } from "../toolbar/toolbar.component";
         MatCardModule,
         MatDividerModule,
         MatIconModule,
-        MatTooltipModule
+        MatTooltipModule,
+        RouterLink
     ],
     templateUrl: './detail.component.html',
     styleUrl: './detail.component.scss'
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnDestroy {
+    private routeSub!: Subscription;
     private id: number = -1;
 
     protected firstDetailId: number;
@@ -40,15 +43,14 @@ export class DetailComponent implements OnInit {
     iconaTabella: string = "error";
     tooltipDex: string = "Errore";
 
-    route: ActivatedRoute = inject(ActivatedRoute);
     dataSource!: IGenericRow;
 
     constructor(
         private detailService: DetailService,
-        private router: Router
+        private route: ActivatedRoute
     ) {
-        ToolbarComponent.staticTabIndex = -1;
-        
+        ToolbarComponent.staticTabIndex = ToolbarTabs.UNSET;
+
         this.id = Number(this.route.snapshot.params['id']);
 
         this.firstDetailId = this.id;
@@ -59,22 +61,32 @@ export class DetailComponent implements OnInit {
 
     ngOnInit(): void {
         // Subscribe to route parameter changes
-        this.route.params.subscribe(params => {
+        this.routeSub = this.route.params.subscribe(params => {
             let paramId: number = +params['id'];
 
             if (this.id != paramId) {
                 this.id = paramId;
-                
-                window.location.reload();
-                //this.router.navigate(['/detail', this.id]);
+
+                this.initFunc();
             }
         });
 
+        this.initFunc();
+    }
+
+    ngOnDestroy(): void {
+        if (this.routeSub) {
+            // Unsubscribe to avoid memory leaks
+            this.routeSub.unsubscribe();
+        }
+    }
+
+    private initFunc(): void {
         this.dataSource = this.detailService.getDetail(this.id);
-        
+
         let disc: number = -1;
 
-        switch(this.dataSource.discriminante) {
+        switch (this.dataSource.discriminante) {
             case "G":
                 this.iconaTabella = "groups_3";
                 this.tooltipDex = "Gruppi multidisciplinari";
@@ -98,9 +110,7 @@ export class DetailComponent implements OnInit {
         }
 
         if (disc != -1) {
-            let navigationIds: number[] = [4];
-
-            navigationIds = this.detailService.getNavigationIds(this.id, disc);
+            let navigationIds: number[] = this.detailService.getNavigationIds(this.id, disc);
 
             this.firstDetailId = navigationIds[0];
             this.previousDetailId = navigationIds[1];
@@ -112,21 +122,5 @@ export class DetailComponent implements OnInit {
             this.disableNext = this.nextDetailId == this.id;
             this.disableLast = this.lastDetailId == this.id;
         }
-    }
-
-    navigateFirstDetail(): void {
-        this.router.navigate(['/detail/', this.firstDetailId]);
-    }
-    
-    navigatePreviousDetail(): void {
-        this.router.navigate(['/detail/', this.previousDetailId]);
-    }
-
-    navigateNextDetail(): void {
-        this.router.navigate(['/detail/', this.nextDetailId]);
-    }
-
-    navigateLastDetail(): void {
-        this.router.navigate(['/detail/', this.lastDetailId]);
     }
 }

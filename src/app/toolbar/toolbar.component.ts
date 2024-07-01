@@ -1,7 +1,7 @@
 import packageJson from '../../../package.json';
 
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -10,6 +10,14 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { ExcellService } from '../excell.service';
 import { LocalStorageService } from '../local-storage.service';
+
+export enum ToolbarTabs {
+  UNSET = -1,
+  HOME = 0,
+  GMTABLE = 1,
+  AMBULATORIO = 2,
+  DADECIDERE = 3
+}
 
 @Component({
   selector: 'toolbar',
@@ -27,7 +35,7 @@ import { LocalStorageService } from '../local-storage.service';
   styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
-  public static staticTabIndex: number = 0;
+  public static staticTabIndex: number = ToolbarTabs.HOME;
 
   public appVersion: string = packageJson.version;
 
