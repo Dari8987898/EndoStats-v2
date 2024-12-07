@@ -39,4 +39,5 @@ export interface IGenericRow {
     come_hai_conosciuto_endocare: string;
     perche_paziente_endocare: string;
     autorizzazione_trattamento_dati: string;
+    note: string;
 }

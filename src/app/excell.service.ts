@@ -146,7 +146,8 @@ export class ExcellService {
       quali_specialisti_consultati: row[35],
       come_hai_conosciuto_endocare: row[36],
       perche_paziente_endocare: row[37],
-      autorizzazione_trattamento_dati: row[38]
+      autorizzazione_trattamento_dati: row[38],
+      note: row[39]
     }
 
     return genericRow;
